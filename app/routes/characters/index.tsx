@@ -2,34 +2,9 @@ import { fetch } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { API_URL } from "~/constants";
 import type { LoaderFunction } from "@remix-run/node";
-
-type Character = {
-  id: number;
-  name: string;
-  status: string;
-  species: string;
-  type: string;
-  gender: string;
-  origin: {
-    name: string;
-    url: string;
-  };
-  location: {
-    name: string;
-    url: string;
-  };
-  image: string;
-  episode: [string];
-  url: string;
-  created: string;
-};
-
-type Info = {
-  count: number;
-  next: string | null;
-  pages: number;
-  prev: string | null;
-};
+import Header from "~/components/header";
+import type { Character } from "~/types/character";
+import type { Info } from "~/types/info";
 
 type LoaderData = {
   info: Info;
@@ -48,14 +23,7 @@ export default function Characters() {
   const { info, results, page } = useLoaderData<LoaderData>();
   return (
     <>
-      <header>
-        <Link
-          to="/"
-          className="block text-6xl font-extrabold uppercase tracking-tight text-teal-500 drop-shadow-md"
-        >
-          Rick & Morty
-        </Link>
-      </header>
+      {<Header />}
       <main>
         <div className="flex flex-wrap justify-center gap-4">
           {results.map((character: Character) => {
@@ -90,9 +58,21 @@ export default function Characters() {
         <div className="flex items-center justify-around">
           <Link
             to={`/characters?page=${parseInt(page.toString()) - 1}`}
-            className="rounded bg-teal-400 py-2 px-4 font-bold text-white hover:bg-teal-600"
+            className="flex items-center rounded bg-teal-400 py-2 px-4 font-bold text-white hover:bg-teal-600"
             onClick={(e) => page <= 1 && e.preventDefault()}
           >
+            <svg
+              className="mr-2 h-5 w-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+                clipRule="evenodd"
+              ></path>
+            </svg>
             Previous
           </Link>
           <p>
@@ -100,10 +80,22 @@ export default function Characters() {
           </p>
           <Link
             to={`/characters?page=${parseInt(page.toString()) + 1}`}
-            className="rounded bg-teal-400 py-2 px-4 font-bold text-white hover:bg-teal-600"
+            className="flex items-center rounded bg-teal-400 py-2 px-4 font-bold text-white hover:bg-teal-600"
             onClick={(e) => page > info.count - 1 && e.preventDefault()}
           >
-            Previous
+            Next
+            <svg
+              className="ml-2 h-5 w-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              ></path>
+            </svg>
           </Link>
         </div>
       </main>
