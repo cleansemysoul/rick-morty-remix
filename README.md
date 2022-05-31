@@ -1,7 +1,6 @@
-```sh
-npm run setup
-```
+Move .env.example to .env
 
-```sh
+```bash
+npm i
 npm run dev
 ```
